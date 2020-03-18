@@ -5,7 +5,6 @@ from flask_restful import Api
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, BooleanField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
-from flask_ngrok import run_with_ngrok
 
 from data import db_session
 from data.__all_models import *
@@ -14,7 +13,6 @@ from jobs_resources import JobsResource, JobsListResource
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-run_with_ngrok(app)
 
 api = Api(app)
 api.add_resource(UsersListResource, '/api/v2/users')
