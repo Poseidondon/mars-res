@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Works log</h3>
+    {% if current_user.is_authenticated %}
+    <div style="width: 120px"><a href="job" class="btn btn-secondary btn-block">Add job</a></div>
+    {% endif %}
+    {% for job in jobs %}
+    <h4 style="padding-top: 30px">Action #{{loop.index}}</h4>
+    <table width="100%" class="table-borderless">
+        <thead align="center">
+            <tr bgcolor="#E5E8E8">
+                <th width=40% height="40">Title of activity</th>
+                <th width=14%>Team leader</th>
+                <th width=14%>Duration</th>
+                <th width=18%>List of collaborators</th>
+                <th width=14%>Is finished</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr bgcolor="#D5E7F1">
+                <td height="70">{{job.job}}</td>
+                <td align="center">{{job.user.name}} {{job.user.surname}}</td>
+                <td align="center">{{job.work_size}} hours</td>
+                <td align="center">{%if job.collaborators%}{{job.collaborators}}{%else%}No collaborators{%endif%}</td>
+                {% if job.is_finished %}
+                <td align="center" bgcolor="#D5F5E3">Is finished</td>
+                {% else %}
+                <td align="center" bgcolor="#FADBD8">Is not finished</td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    {% if current_user.is_authenticated and (current_user == job.user or current_user.id == 1) %}
+    <div style="width: 100px; display: inline-block; margin-top: 10px">
+        <a href="/job/{{ job.id }}" class="btn btn-warning btn-block">Edit</a>
+    </div>
+    <div style="width: 100px; display: inline-block; margin-top: 10px">
+        <a href="/job_delete/{{ job.id }}" class="btn btn-danger btn-block">Delete</a>
+    </div>
+{% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
